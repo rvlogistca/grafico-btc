@@ -11,12 +11,9 @@
     * { font-family: 'Inter', sans-serif; }
     :root {
       --ouro: #ffd700;
-      --ouro-claro: #fff1a8;
       --ouro-escuro: #b8860b;
-      --ouro-brilhante: linear-gradient(135deg, #ffd700, #ffec80, #ffd700);
       --fundo: #0a0800;
       --card: #1a1500;
-      --borda: #4d3d00;
     }
     body {
       background: var(--fundo);
@@ -25,32 +22,31 @@
       background-image:
         radial-gradient(circle at top, rgba(255,215,0,0.12), transparent 50%),
         radial-gradient(circle at bottom, rgba(255,184,0,0.08), transparent 50%);
-      background-attachment: fixed;
     }
     .card {
       background: var(--card);
       border-radius: 16px;
       border: 2px solid var(--ouro-escuro);
-      box-shadow: 0 0 20px rgba(255,215,0,0.15), inset 0 0 30px rgba(255,215,0,0.05);
+      box-shadow: 0 0 20px rgba(255,215,0,0.15);
     }
     .card-dourado {
       background: linear-gradient(135deg, #2b2200, #1a1500);
       border: 2px solid var(--ouro);
-      box-shadow: 0 0 35px rgba(255,215,0,0.25), 0 0 60px rgba(255,184,0,0.1);
+      box-shadow: 0 0 35px rgba(255,215,0,0.25);
       animation: brilho 3s infinite alternate;
     }
     @keyframes brilho {
-      from { box-shadow: 0 0 35px rgba(255,215,0,0.25), 0 0 60px rgba(255,184,0,0.1); }
-      to { box-shadow: 0 0 45px rgba(255,215,0,0.35), 0 0 80px rgba(255,184,0,0.15); }
+      from { box-shadow: 0 0 35px rgba(255,215,0,0.25); }
+      to { box-shadow: 0 0 45px rgba(255,215,0,0.35); }
     }
     .texto-dourado {
-      background: var(--ouro-brilhante);
+      background: linear-gradient(135deg, #ffd700, #ffec80, #ffd700);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       font-weight: 900;
     }
     .badge-dono {
-      background: var(--ouro-brilhante);
+      background: linear-gradient(135deg, #ffd700, #ffb800);
       color: #000;
       font-weight: 900;
       box-shadow: 0 0 15px rgba(255,215,0,0.4);
@@ -72,25 +68,18 @@
       transition: all 0.3s;
     }
     .btn:hover, .btn.active {
-      background: var(--ouro-brilhante);
+      background: linear-gradient(135deg, #ffd700, #ffb800);
       color: #000;
       border-color: #ffd700;
       box-shadow: 0 0 15px rgba(255,215,0,0.5);
-    }
-    .valor-grande {
-      font-size: 2px;
-      font-weight: 900;
-      color: #ffd700;
-      text-shadow: 0 0 10px rgba(255,215,0,0.5);
     }
   </style>
 </head>
 <body class="px-4 py-6 max-w-4xl mx-auto">
 
-  <!-- CABEÇALHO / MARCA -->
   <header class="text-center mb-8">
     <div class="inline-flex items-center gap-3 mb-3">
-      <div class="w-14 h-14 rounded-full flex items-center justify-center text-2xl font-black" style="background:var(--ouro-brilhante);color:#000">C</div>
+      <div class="w-14 h-14 rounded-full flex items-center justify-center text-2xl font-black" style="background:linear-gradient(135deg,#ffd700,#ffb800);color:#000">C</div>
       <div class="text-left">
         <h1 class="text-3xl font-black tracking-tight texto-dourado">Crypto Coinnex</h1>
         <p class="text-sm text-yellow-400/80 font-semibold">Exchange Oficial · HChain Network</p>
@@ -103,12 +92,9 @@
     <p id="atualizacao" class="text-sm text-yellow-400/60">Última atualização: —</p>
   </header>
 
-  <!-- CARTEIRA PRINCIPAL — 36 BTC -->
   <div class="card-dourado p-5 mb-5">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-bold text-yellow-300 flex items-center gap-2">
-        💰 Carteira Principal
-      </h2>
+      <h2 class="text-xl font-bold text-yellow-300 flex items-center gap-2">💰 Carteira Principal</h2>
       <span class="bg-yellow-500/20 text-yellow-300 px-3 py-1 rounded-full font-bold">BITCOIN</span>
     </div>
     <p class="text-xs text-yellow-400/60 mb-1">Endereço HChain / EVM</p>
@@ -128,12 +114,9 @@
     </div>
   </div>
 
-  <!-- CARTEIRA SECUNDÁRIA -->
   <div class="card p-5 mb-5">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-lg font-bold text-yellow-400/90 flex items-center gap-2">
-        💼 Carteira Secundária
-      </h2>
+      <h2 class="text-lg font-bold text-yellow-400/90 flex items-center gap-2">💼 Carteira Secundária</h2>
       <span class="bg-yellow-500/10 text-yellow-400/80 px-3 py-1 rounded-full font-semibold">HCH</span>
     </div>
     <p class="text-xs text-yellow-400/50 mb-1">Endereço HChain</p>
@@ -153,12 +136,9 @@
     </div>
   </div>
 
-  <!-- TOKEN HCHAIN -->
   <div class="card p-5 mb-6">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-lg font-bold texto-dourado flex items-center gap-2">
-        🪙 Token HChain
-      </h2>
+      <h2 class="text-lg font-bold texto-dourado flex items-center gap-2">🪙 Token HChain</h2>
       <span class="bg-yellow-500/20 text-yellow-300 px-3 py-1 rounded-full font-bold">HCH</span>
     </div>
     <p class="text-xs text-yellow-400/50 mb-1">Contrato Oficial</p>
@@ -182,7 +162,6 @@
     </div>
   </div>
 
-  <!-- GRÁFICOS -->
   <div class="flex flex-wrap gap-3 mb-4 justify-center">
     <button class="btn active px-5 py-2" onclick="trocarMoeda('bitcoin', 'BTC')">Bitcoin</button>
     <button class="btn px-5 py-2" onclick="trocarMoeda('ethereum', 'ETH')">Ethereum</button>
@@ -201,7 +180,6 @@
     <canvas id="grafico" height="250"></canvas>
   </div>
 
-  <!-- RODAPÉ -->
   <footer class="text-center mt-10 pb-6">
     <div class="card p-5">
       <p class="text-2xl font-black texto-dourado">Crypto Coinnex</p>
@@ -217,11 +195,7 @@
     let siglaAtual = 'BTC';
     let diasAtual = 30;
     const corDourado = '#ffd700';
-
-    const nomes = {
-      bitcoin: 'Bitcoin (BTC)',
-      ethereum: 'Ethereum (ETH)'
-    };
+    const nomes = { bitcoin: 'Bitcoin (BTC)', ethereum: 'Ethereum (ETH)' };
 
     function copiar(id) {
       navigator.clipboard.writeText(document.getElementById(id).textContent)
@@ -240,8 +214,7 @@
         const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
         const dados = await res.json();
         const precoBTC = dados.bitcoin.usd;
-        const saldoBTC = 36; // FIXO: 36 BTC
-
+        const saldoBTC = 36;
         document.getElementById('valor-btc').textContent = `$ ${(saldoBTC * precoBTC).toLocaleString('en-US', {minimumFractionDigits:2})}`;
         document.getElementById('atualizacao').textContent = `Última atualização: ${new Date().toLocaleTimeString('pt-BR')}`;
       } catch (e) { console.error(e); }
@@ -251,7 +224,6 @@
       diasAtual = dias;
       event?.target?.parentNode?.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
       event?.target?.classList.add('active');
-
       try {
         const fim = Math.floor(Date.now() / 1000);
         const inicio = fim - (dias * 86400);
@@ -259,22 +231,16 @@
         const res = await fetch(url);
         const json = await res.json();
         if (!json.prices) throw new Error('Sem dados');
-
-        const datas = json.prices.map(p => {
-          const d = new Date(p[0]);
-          return `${d.getDate()}/${d.getMonth()+1}`;
-        });
+        const datas = json.prices.map(p => { const d = new Date(p[0]); return `${d.getDate()}/${d.getMonth()+1}`; });
         const valores = json.prices.map(p => p[1]);
         const ultimo = valores[valores.length - 1];
         const primeiro = valores[0];
         const variacao = ((ultimo - primeiro) / primeiro * 100).toFixed(2);
         const sinal = variacao >= 0 ? '+' : '';
         const corVar = variacao >= 0 ? '#90ee90' : '#ff6b6b';
-
         document.getElementById('nome-moeda').textContent = nomes[moedaAtual];
         document.getElementById('preco').textContent = `$ ${ultimo.toLocaleString('en-US', {minimumFractionDigits:2})}`;
         document.getElementById('variacao').innerHTML = `<span style="color:${corVar}">${sinal}${variacao}%</span> nos últimos ${dias} dias`;
-
         if (grafico) grafico.destroy();
         grafico = new Chart(document.getElementById('grafico').getContext('2d'), {
           type: 'line',
@@ -305,7 +271,6 @@
         document.getElementById('preco').textContent = 'Erro ao carregar';
       }
     }
-
     carregarSaldos();
     carregarGrafico(30);
   </script>
