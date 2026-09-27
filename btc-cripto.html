@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferramentas Cripto — Bitcoin Web3 Theme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tronweb@5.3.2/dist/TronWeb.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        btc: {
+                            gold: '#F7931A',
+                            goldLight: '#FFD54F',
+                            goldDark: '#D87000',
+                            bg: '#0F0F0F',
+                            card: '#1A1A1A',
+                            cardHover: '#222222',
+                            border: '#2A2A2A',
+                            text: '#F5F5F5',
+                            textMuted: '#A6A6A6',
+                            success: '#10B981',
+                            danger: '#EF4444'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'bounce-subtle': 'bounce 2s infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-6px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+
+            .btc-gradient {
+                background: linear-gradient(135deg, #F7931A 0%, #FFD54F 50%, #D87000 100%);
+            }
+
+            .btc-gradient-text {
+                background: linear-gradient(135deg, #F7931A, #FFD54F, #D87000);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .glass-card {
+                background: rgba(26, 26, 26, 0.95);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(247, 147, 26, 0.12);
+            }
+
+            .glow-gold {
+                box-shadow: 0 0 20px rgba(247, 147, 26, 0.4);
+            }
+
+            .glow-gold-soft {
+                box-shadow: 0 0 12px rgba(247, 147, 26, 0.25);
+            }
+
+            .btn {
+                @apply px-5 py-2.5 rounded-xl font-semibold transition-all duration-300;
+            }
+
+            .btn-primary {
+                @apply btc-gradient text-btc-bg hover:scale-105 active:scale-95 glow-gold-soft;
+            }
+
+            .btn-success {
+                @apply bg-btc-success text-white hover:opacity-90 active:scale-95 rounded-xl;
+            }
+
+            .btn-danger {
+                @apply bg-btc-danger text-white hover:opacity-90 active:scale-95 rounded-xl;
+            }
+
+            .input-field {
+                @apply w-full px-4 py-2.5 rounded-xl bg-btc-card border border-btc-border text-btc-text placeholder-btc-textMuted
+                focus:outline-none focus:ring-2 focus:ring-btc-gold/50 focus:border-btc-gold transition-all;
+            }
+
+            .icon-circle {
+                @apply w-10 h-10 rounded-full btc-gradient flex items-center justify-center text-btc-bg text-lg;
+            }
+
+            .card {
+                @apply glass-card rounded-2xl p-5 transition-all duration-300 hover:border-btc-gold/30 hover:shadow-lg hover:shadow-btc-gold/10;
+            }
+
+            .status-dot {
+                @apply w-2.5 h-2.5 rounded-full animate-pulse-slow;
+            }
+
+            .grid-bg {
+                background-image:
+                    radial-gradient(circle at 10% 10%, rgba(247, 147, 26, 0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 90% 20%, rgba(255, 213, 79, 0.06) 0%, transparent 50%),
+                    radial-gradient(circle at 50% 90%, rgba(247, 147, 26, 0.06) 0%, transparent 50%);
+            }
+
+            .chain-bg {
+                background-image:
+                    linear-gradient(rgba(247, 147, 26, 0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(247, 147, 26, 0.04) 1px, transparent 1px);
+                background-size: 24px 24px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-btc-bg text-btc-text min-h-screen grid-bg chain-bg">
+
+    <header class="btc-bg py-6 shadow-lg border-b border-btc-border">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col items-center gap-3">
+                <div class="relative">
+                    <div class="icon-circle animate-float text-xl">
+                        <i class="fa-brands fa-bitcoin"></i>
+                    </div>
+                    <div class="absolute -inset-3 rounded-full btc-gradient opacity-20 blur-lg animate-pulse-slow"></div>
+                </div>
+
+                <h1 class="text-[clamp(1.6rem,3vw,2.4rem)] font-bold text-center btc-gradient-text tracking-tight">
+                    Ferramentas Cripto
+                </h1>
+
+                <p class="text-btc-textMuted text-center text-sm md:text-base max-w-xl">
+                    Validador de Endereços • Gerador de QR Code • Monitoramento Web3 em Tempo Real
+                </p>
+
+                <div class="flex items-center gap-2 mt-2">
+                    <span class="status-dot bg-btc-success"></span>
+                    <span class="text-xs text-btc-textMuted">Sistema Online</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 space-y-8">
+
+        <section class="card">
+            <h2 class="text-xl font-bold mb-5 flex items-center gap-3">
+                <div class="icon-circle text-base">
+                    <i class="fa-solid fa-check-to-slot"></i>
+                </div>
+                <span class="btc-gradient-text">Validador de Endereços</span>
+                <span class="ml-auto text-xs bg-btc-gold/10 text-btc-gold px-2 py-0.5 rounded-full">Web3</span>
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-4 mb-5">
+                <div>
+                    <label class="block text-sm font-medium text-btc-textMuted mb-2">Rede / Protocolo</label>
+                    <select id="networkSelect" class="input-field">
+                        <option value="ethereum">Ethereum / EVM</option>
+                        <option value="tron">Tron</option>
+                        <option value="bitcoin">Bitcoin</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-btc-textMuted mb-2">Endereço</label>
+                    <input type="text" id="addressInput" placeholder="0x... / bc1... / T..." class="input-field">
+                </div>
+            </div>
+
+            <button id="validateBtn" class="btn btn-primary w-full md:w-auto flex items-center justify-center gap-2">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Validar Endereço
+            </button>
+
+            <div id="validationResult" class="mt-5 hidden">
+                <div id="resultContent" class="p-4 rounded-xl border"></div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2 class="text-xl font-bold mb-5 flex items-center gap-3">
+                <div class="icon-circle text-base">
+                    <i class="fa-solid fa-qrcode"></i>
+                </div>
+                <span class="btc-gradient-text">Gerador de QR Code</span>
+                <span class="ml-auto text-xs bg-btc-gold/10 text-btc-gold px-2 py-0.5 rounded-full">Pagamento</span>
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-4 mb-5">
+                <div>
+                    <label class="block text-sm font-medium text-btc-textMuted mb-2">Moeda/Rede</label>
+                    <select id="qrCoin" class="input-field">
+                        <option value="bitcoin">Bitcoin (BTC)</option>
+                        <option value="ethereum">Ethereum (ETH)</option>
+                        <option value="tron">Tron (TRX)</option>
+                        <option value="usdt">USDT (ERC-20)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-btc-textMuted mb-2">Endereço de Destino</label>
+                    <input type="text" id="qrAddress" placeholder="Endereço..." class="input-field">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-btc-textMuted mb-2">Valor (opcional)</label>
+                    <input type="number" step="0.00000001" id="qrAmount" placeholder="0.00" class="input-field">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-btc-textMuted mb-2">Mensagem (opcional)</label>
+                    <input type="text" id="qrLabel" placeholder="Pagamento..." class="input-field">
+                </div>
+            </div>
+
+            <button id="generateQrBtn" class="btn btn-primary w-full md:w-auto flex items-center justify-center gap-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                Gerar QR Code
+            </button>
+
+            <div id="qrResult" class="mt-7 hidden">
+                <div class="flex flex-col items-center">
+                    <div id="qrContainer" class="bg-white p-5 rounded-2xl border-2 border-btc-gold/30 glow-gold-soft mb-4"></div>
+                    <p class="text-sm text-btc-textMuted mb-3">Escaneie para pagar</p>
+                    <div class="text-sm bg-btc-cardHover p-3 rounded-xl w-full break-all border border-btc-border">
+                        <strong class="text-btc-gold">URI:</strong> <span id="qrUriText" class="text-btc-text"></span>
+                    </div>
+                    <button id="downloadQrBtn" class="btn btn-primary mt-4 flex items-center gap-2">
+                        <i class="fa-solid fa-download"></i>
+                        Baixar QR Code
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2 class="text-xl font-bold mb-5 flex items-center gap-3">
+                <div class="icon-circle text-base">
+                    <i class="fa-solid fa-signal"></i>
+                </div>
+                <span class="btc-gradient-text">Status da Rede</span>
+                <span class="ml-auto text-xs bg-btc-gold/10 text-btc-gold px-2 py-0.5 rounded-full flex items-center gap-1">
+                    <i class="fa-solid fa-circle text-[10px] animate-pulse-slow"></i>
+                    Ativo
+                </span>
+            </h2>
+
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="border border-btc-border rounded-xl p-4 bg-btc-cardHover/60 hover:border-btc-gold/20 transition-all">
+                    <h3 class="font-semibold text-sm text-btc-gold mb-3 flex items-center gap-2">
+                        <i class="fa-brands fa-bitcoin animate-bounce-subtle"></i>
+                        Bitcoin
+                    </h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-btc-textMuted">Status:</span>
+                            <span id="btcStatus" class="font-medium text-yellow-400">Verificando...</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-btc-textMuted">Bloco:</span>
+                            <span id="btcBlock" class="font-medium">—</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-btc-textMuted">Dificuldade:</span>
+                            <span id="btcDiff" class="font-medium">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-btc-border rounded-xl p-4 bg-btc-cardHover/60 hover:border-btc-gold/20 transition-all">
+                    <h3 class="font-semibold text-sm text-btc-gold mb-3 flex items-center gap-2">
+                        <i class="fa-brands fa-ethereum animate-float"></i>
+                        Ethereum
+                    </h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-btc-textMuted">Status:</span>
+                            <span id="ethStatus" class="font-medium text-yellow-400">Verificando...</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-btc-textMuted">Bloco:</span>
+                            <span id="ethBlock" class="font-medium">—</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-btc-textMuted">Gás (Gwei):</span>
+                            <span id="ethGas" class="font-medium">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-btc-border rounded-xl p-4 bg-btc-cardHover/60 hover:border-btc-gold/20 transition-all">
+                    <h3 class="font-semibold text-sm text-btc-gold mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-bolt animate-pulse-slow"></i>
+                        Tron
+                    </h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-btc-textMuted">Status:</span>
+                            <span id="tronStatus" class="font-medium text-yellow-400">Verificando...</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-btc-textMuted">Bloco:</span>
+                            <span id="tronBlock" class="font-medium">—</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-btc-textMuted">TPS Est.:</span>
+                            <span id="tronTps" class="font-medium">—</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-xs text-btc-textMuted mt-4">
+                Atualização automática a cada 15s • Dados de APIs públicas
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="mt-12 py-6 text-center text-sm text-btc-textMuted border-t border-btc-border">
+        <p>Ferramenta de uso geral • Sem garantias • Verifique sempre os endereços antes de enviar</p>
+    </footer>
+
+    <script>
+        const validateAddress = (network, address) => {
+            if (!address || typeof address !== 'string') return { valid: false, message: 'Endereço vazio' };
+            address = address.trim();
+
+            switch (network) {
+                case 'ethereum':
+                    try {
+                        const isAddr = ethers.isAddress(address);
+                        const isChecksum = isAddr && address === ethers.getAddress(address);
+                        return {
+                            valid: isAddr,
+                            message: isAddr
+                                ? `✅ Endereço Ethereum válido${isChecksum ? ' (checksum)' : ''}`
+                                : '❌ Endereço Ethereum inválido',
+                            normalized: isAddr ? ethers.getAddress(address) : null
+                        };
+                    } catch (e) {
+                        return { valid: false, message: '❌ Erro ao validar Ethereum' };
+                    }
+
+                case 'tron':
+                    const tronRegex = /^T[a-zA-Z0-9]{33}$/;
+                    const tronValid = tronRegex.test(address);
+                    return {
+                        valid: tronValid,
+                        message: tronValid
+                            ? '✅ Endereço Tron válido'
+                            : '❌ Endereço Tron inválido',
+                        normalized: tronValid ? address : null
+                    };
+
+                case 'bitcoin':
+                    const btcRegexLegacy = /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/;
+                    const btcRegexSegwit = /^bc1[ac-hj-np-z02]{11,74}$/;
+                    const btcValid = btcRegexLegacy.test(address) || btcRegexSegwit.test(address);
+                    return {
+                        valid: btcValid,
+                        message: btcValid
+                            ? '✅ Endereço Bitcoin válido'
+                            : '❌ Endereço Bitcoin inválido',
+                        normalized: btcValid ? address : null
+                    };
+
+                default:
+                    return { valid: false, message: 'Rede não suportada' };
+            }
+        };
+
+        document.getElementById('validateBtn').addEventListener('click', () => {
+            const network = document.getElementById('networkSelect').value;
+            const address = document.getElementById('addressInput').value;
+            const result = validateAddress(network, address);
+
+            const resultDiv = document.getElementById('validationResult');
+            const contentDiv = document.getElementById('resultContent');
+
+            resultDiv.classList.remove('hidden');
+            contentDiv.className = `p-4 rounded-xl border ${
+                result.valid
+                    ? 'bg-green-500/10 text-green-300 border-green-500/30'
+                    : 'bg-red-500/10 text-red-300 border-red-500/30'
+            }`;
+            contentDiv.innerHTML = `
+                <p class="font-medium">${result.message}</p>
+                ${result.normalized ? `<p class="mt-2 text-sm">Normalizado: <code class="bg-btc-bg px-2 py-1 rounded-lg border border-btc-border">${result.normalized}</code></p>` : ''}
+            `;
+        });
+
+        const buildPaymentUri = (coin, address, amount, label) => {
+            let uri = '';
+            const params = new URLSearchParams();
+
+            if (amount && parseFloat(amount) > 0) params.append('amount', amount);
+            if (label) params.append('label', label);
+
+            const queryString = params.toString();
+            const suffix = queryString ? `?${queryString}` : '';
+
+            switch (coin) {
+                case 'bitcoin':
+                    uri = `bitcoin:${address}${suffix}`;
+                    break;
+                case 'ethereum':
+                case 'usdt':
+                    uri = `ethereum:${address}${suffix}`;
+                    break;
+                case 'tron':
+                    uri = `tron:${address}${suffix}`;
+                    break;
+            }
+            return uri;
+        };
+
+        let qrCanvas = null;
+
+        document.getElementById('generateQrBtn').addEventListener('click', async () => {
+            const coin = document.getElementById('qrCoin').value;
+            const address = document.getElementById('qrAddress').value.trim();
+            const amount = document.getElementById('qrAmount').value;
+            const label = document.getElementById('qrLabel').value;
+
+            const netMap = { ethereum: 'ethereum', usdt: 'ethereum', bitcoin: 'bitcoin', tron: 'tron' };
+            const check = validateAddress(netMap[coin], address);
+            if (!check.valid) {
+                alert('Endereço inválido! Verifique antes de gerar o QR Code.');
+                return;
+            }
+
+            const uri = buildPaymentUri(coin, address, amount, label);
+            const container = document.getElementById('qrContainer');
+            const resultDiv = document.getElementById('qrResult');
+
+            container.innerHTML = '';
+            resultDiv.classList.remove('hidden');
+            document.getElementById('qrUriText').textContent = uri;
+
+            qrCanvas = document.createElement('canvas');
+            try {
+                await QRCode.toCanvas(qrCanvas, uri, {
+                    width: 220,
+                    margin: 2,
+                    color: { dark: '#F7931A', light: '#ffffff' }
+                });
+                container.appendChild(qrCanvas);
+            } catch (err) {
+                container.innerHTML = `<p class="text-btc-danger">Erro ao gerar QR Code: ${err.message}</p>`;
+            }
+        });
+
+        document.getElementById('downloadQrBtn').addEventListener('click', () => {
+            if (!qrCanvas) return;
+            const link = document.createElement('a');
+            link.download = `btc-qrcode-${Date.now()}.png`;
+            link.href = qrCanvas.toDataURL('image/png');
+            link.click();
+        });
+
+        const updateNetworkStatus = async () => {
+            const btcApis = [
+                { block: 'https://blockchain.info/q/getblockcount', diff: 'https://blockchain.info/q/getdifficulty' },
+                { block: 'https://mempool.space/api/blocks/tip/height', diff: 'https://mempool.space/api/v1/difficulty' }
+            ];
+            let btcOk = false;
+            for (const api of btcApis) {
+                try {
+                    const blockRes = await fetch(api.block, { signal: AbortSignal.timeout(8000) });
+                    if (!blockRes.ok) throw new Error();
+                    const blockHeight = await blockRes.text();
+                    document.getElementById('btcStatus').textContent = '✅ Online';
+                    document.getElementById('btcStatus').className = 'font-medium text-btc-success';
+                    document.getElementById('btcBlock').textContent = parseInt(blockHeight).toLocaleString('pt-BR');
+
+                    const diffRes = await fetch(api.diff, { signal: AbortSignal.timeout(8000) });
+                    if (diffRes.ok) {
+                        const diffVal = await diffRes.text();
+                        document.getElementById('btcDiff').textContent = (parseFloat(diffVal) / 1e12).toFixed(2) + ' T';
+                    }
+                    btcOk = true;
+                    break;
+                } catch { continue; }
+            }
+            if (!btcOk) {
+                document.getElementById('btcStatus').textContent = '❌ Offline';
+                document.getElementById('btcStatus').className = 'font-medium text-btc-danger';
+                document.getElementById('btcBlock').textContent = '—';
+                document.getElementById('btcDiff').textContent = '—';
+            }
+
+            const ethProviders = [
+                'https://rpc.ankr.com/eth',
+                'https://eth-mainnet.public.blastapi.io',
+                'https://1rpc.io/eth'
+            ];
+            let ethOk = false;
+            for (const rpc of ethProviders) {
+                try {
+                    const ethProvider = new ethers.JsonRpcProvider(rpc, null, { timeout: 8000 });
+                    const blockNum = await ethProvider.getBlockNumber();
+                    const feeData = await ethProvider.getFeeData();
+                    document.getElementById('ethStatus').textContent = '✅ Online';
+                    document.getElementById('ethStatus').className = 'font-medium text-btc-success';
+                    document.getElementById('ethBlock').textContent = blockNum.toLocaleString('pt-BR');
+                    document.getElementById('ethGas').textContent = feeData.gasPrice
+                        ? `${Math.round(Number(feeData.gasPrice) / 1e9)} Gwei`
+                        : '—';
+                    ethOk = true;
+                    break;
+                } catch { continue; }
+            }
+            if (!ethOk) {
+                document.getElementById('ethStatus').textContent = '❌ Offline';
+                document.getElementById('ethStatus').className = 'font-medium text-btc-danger';
+                document.getElementById('ethBlock').textContent = '—';
+                document.getElementById('ethGas').textContent = '—';
+            }
+
+            try {
+                const tronRes = await fetch('https://api.trongrid.io/wallet/getnowblock', { signal: AbortSignal.timeout(8000) });
+                if (!tronRes.ok) throw new Error();
+                const tronData = await tronRes.json();
+                document.getElementById('tronStatus').textContent = '✅ Online';
+                document.getElementById('tronStatus').className = 'font-medium text-btc-success';
+                document.getElementById('tronBlock').textContent = tronData.block_header.raw_data.number.toLocaleString('pt-BR');
+                document.getElementById('tronTps').textContent = '~2.000/s';
+            } catch {
+                document.getElementById('tronStatus').textContent = '❌ Offline';
+                document.getElementById('tronStatus').className = 'font-medium text-btc-danger';
+            }
+        };
+
+        updateNetworkStatus();
+        setInterval(updateNetworkStatus, 15000);
+    </script>
+
+</body>
+</html>
